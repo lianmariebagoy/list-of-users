@@ -4,15 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Page = () => {
-  const [user, setUser] = useState(() => {
-    const savedUsers = localStorage.getItem("user");
-    return savedUsers ? JSON.parse(savedUsers) : [];
-  });
-
+  const [user, setUser] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [editIndex, setEditIndex] = useState(null);
+
+  // Load saved users from localStorage when the component mounts
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedUsers = localStorage.getItem("user");
+      if (savedUsers) {
+        setUser(JSON.parse(savedUsers));
+      }
+    }
+  }, []);
 
   const handleEmail = (userEmail) => {
     setEmail(userEmail);
@@ -62,8 +68,11 @@ const Page = () => {
     setSearchTerm(e.target.value);
   };
 
+  // Save users to localStorage whenever the user list changes
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
   }, [user]);
 
   const filteredUsers = user.filter((user) =>
