@@ -10,7 +10,6 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editIndex, setEditIndex] = useState(null);
 
-  // Load saved users from localStorage when the component mounts
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedUsers = localStorage.getItem("user");
@@ -68,7 +67,6 @@ const Page = () => {
     setSearchTerm(e.target.value);
   };
 
-  // Save users to localStorage whenever the user list changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem("user", JSON.stringify(user));
